@@ -1,6 +1,6 @@
 # 🕵️‍♂️ Integração Wazuh & Sophos Central API
 
-![Banner da Integração Wazuh e Sophos](image)
+![Banner da Integração Wazuh e Sophos](./images/readme-banner.png)
 
 ## 📄 Sumário
 
