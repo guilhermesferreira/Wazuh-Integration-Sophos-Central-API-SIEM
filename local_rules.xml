@@ -1,0 +1,319 @@
+<group name="sophos,">
+
+  <!-- 🎯 Regra Pai -->
+  <rule id="100100" level="0">
+    <description>Regra pai para todos os eventos recebidos da Sophos Central API</description>
+    <group>sophos,api_events,</group>
+  </rule>
+
+  <!-- ======================== -->
+  <!-- 🔥 FIREWALL -->
+  <!-- ======================== -->
+
+   <rule id="100101" level="9">
+    <if_sid>100100</if_sid>
+    <field name="type">^Event::Firewall::FirewallGatewayDown$</field>
+    <description>Firewall: Gateway está offline</description>
+    <group>sophos,api_events,firewall,connectivity</group>
+  </rule>
+
+  <rule id="100102" level="4">
+    <if_sid>100100</if_sid>
+    <field name="type">^Event::Firewall::FirewallGatewayUp$</field>
+    <description>Firewall: Gateway voltou a ficar online</description>
+    <group>sophos,api_events,firewall,connectivity</group>
+  </rule>
+
+  <rule id="100103" level="8">
+    <if_sid>100100</if_sid>
+    <field name="type">^Event::Firewall::FirewallVPNTunnelDown$</field>
+    <description>Firewall: Túnel VPN caiu</description>
+    <group>sophos,api_events,firewall,vpn,connectivity</group>
+  </rule>
+
+  <rule id="100104" level="4">
+    <if_sid>100100</if_sid>
+    <field name="type">^Event::Firewall::FirewallVPNTunnelUp$</field>
+    <description>Firewall: Túnel VPN restabelecido</description>
+    <group>sophos,api_events,firewall,vpn</group>
+  </rule>
+
+  <rule id="100105" level="13">
+    <if_sid>100100</if_sid>
+    <field name="type">^Event::Firewall::FirewallAdvancedThreatProtectionDetailed$</field>
+    <description>Firewall: ATP detectou tentativa de comunicação com domínio malicioso ou botnet</description>
+    <group>sophos,api_events,firewall,threat,atp</group>
+    <mitre>
+      <id>T1071</id> </mitre>
+  </rule>
+
+  <!-- ======================== -->
+  <!-- 🛡️ IPS -->
+  <!-- ======================== -->
+
+  <rule id="100106" level="11">
+    <if_sid>100100</if_sid>
+    <field name="type">^Event::Firewall::IntrusionPrevention::Dropped$</field>
+    <description>IPS: Ataque detectado e bloqueado</description>
+    <group>sophos,api_events,ips,intrusion</group>
+    <mitre>
+      <id>T1055</id> </mitre>
+  </rule>
+
+  <!-- ======================== -->
+  <!-- 🔐 CREDENTIAL MANAGER -->
+  <!-- ======================== -->
+
+  <rule id="100107" level="10">
+    <if_sid>100100</if_sid>
+    <field name="type">^Event::CredentialManager::CredentialHarvestingDetected$</field>
+    <description>Credential Manager: Tentativa de coleta de credenciais detectada</description>
+    <group>sophos,api_events,credential_manager,identity</group>
+    <mitre>
+      <id>T1003</id> </mitre>
+  </rule>
+
+  <!-- ======================== -->
+  <!-- 📁 FIM -->
+  <!-- ======================== -->
+
+  <rule id="100108" level="6">
+    <if_sid>100100</if_sid>
+    <field name="type">^Event::Endpoint::FIMEventDetected$</field>
+    <description>FIM: Alteração em arquivo crítico detectada</description>
+    <group>sophos,api_events,fim,file_integrity</group>
+    <mitre>
+      <id>T1565</id> </mitre>
+  </rule>
+
+ 
+  <!-- ======================== -->
+  <!-- 🛰️ UAV -->
+  <!-- ======================== -->
+
+  <rule id="100109" level="9">
+    <if_sid>100100</if_sid>
+    <field name="type">^Event::UAV::ThreatDetected$</field>
+    <description>UAV: Ameaça comportamental detectada</description>
+    <group>sophos,api_events,uav,behavior,threat</group>
+    <mitre>
+      <id>T1204</id> </mitre>
+  </rule>
+
+  <!-- ======================== -->
+  <!-- 🌐 DNS Protection -->
+  <!-- ======================== -->
+
+  <rule id="100110" level="8">
+    <if_sid>100100</if_sid>
+    <field name="type">^Event::DNSProtection::BlockedDomain$</field>
+    <description>DNS Protection: Domínio malicioso bloqueado</description>
+    <group>sophos,api_events,dns,threat</group>
+    <mitre>
+      <id>T1568</id> </mitre>
+  </rule>
+
+  <!-- ======================== -->
+  <!-- 🔐 ZTNA -->
+  <!-- ======================== -->
+
+  <rule id="100111" level="6">
+    <if_sid>100100</if_sid>
+    <field name="type">^Event::ZTNA::AccessDenied$</field>
+    <description>ZTNA: Acesso negado por política de Zero Trust</description>
+    <group>sophos,api_events,ztna,access_control</group>
+    <mitre>
+      <id>T1078</id> </mitre>
+  </rule>
+
+  <!-- ======================== -->
+  <!-- 📊 Posture -->
+  <!-- ======================== -->
+
+  <rule id="100112" level="4">
+    <if_sid>100100</if_sid>
+    <field name="type">^Event::Posture::ChangeDetected$</field>
+    <description>Posture: Mudança de postura de segurança no endpoint</description>
+    <group>sophos,api_events,posture,compliance</group>
+    <mitre>
+      <id>T1082</id> </mitre>
+  </rule>
+
+  <!-- ============================ -->
+  <!-- 🧬 Directory Sync -->
+  <!-- ============================ -->
+
+  <rule id="100113" level="6">
+    <if_sid>100100</if_sid>
+    <field name="type">^Event::DirectoryConfig::SyncStarted$</field>
+    <description>Directory Sync: Sincronização iniciada</description>
+    <group>sophos,api_events,directory,sync</group>
+    <mitre>
+      <id>T1087</id> </mitre>
+  </rule>
+
+  <rule id="100114" level="5">
+    <if_sid>100100</if_sid>
+    <field name="type">^Event::DirectoryConfig::SyncCompleted$</field>
+    <description>Directory Sync: Sincronização concluída com sucesso</description>
+    <group>sophos,api_events,directory,sync</group>
+  </rule>
+
+  <!-- ============================ -->
+  <!-- 📧 Email Security -->
+  <!-- ============================ -->
+
+  <rule id="100115" level="10">
+    <if_sid>100100</if_sid>
+    <field name="type">^Event::EmailSecurity::PhishDetected$</field>
+    <description>Email Security: Tentativa de phishing detectada</description>
+    <group>sophos,api_events,email,threat</group>
+    <mitre>
+      <id>T1566</id> </mitre>
+  </rule>
+
+  <rule id="100116" level="12">
+    <if_sid>100100</if_sid>
+    <field name="type">^Event::EmailSecurity::MalwareDetected$</field>
+    <description>Email Security: Malware identificado em anexo ou link</description>
+    <group>sophos,api_events,email,threat,malware</group>
+    <mitre>
+      <id>T1204</id> </mitre>
+  </rule>
+
+  <!-- ============================ -->
+  <!-- 🔄 Updater -->
+  <!-- ============================ -->
+
+  <rule id="100117" level="3">
+    <if_sid>100100</if_sid>
+    <field name="type">^Event::Updater::UpdateSuccess$</field>
+    <description>Updater: Atualização de endpoint concluída com sucesso</description>
+    <group>sophos,api_events,updater</group>
+  </rule>
+
+   <rule id="100129" level="6">
+    <if_sid>100100</if_sid>
+    <field name="type">^Event::Endpoint::UpdateSuccess$</field>
+    <description>Updater: Atualização de endpoint concluída com sucesso</description>
+    <group>sophos,api_events,fim,file_integrity</group>
+    <mitre>
+      <id>T1565</id> </mitre>
+  </rule>
+
+  <rule id="100118" level="7">
+    <if_sid>100100</if_sid>
+    <field name="type">^Event::Updater::UpdateFailed$</field>
+    <description>Updater: Falha ao aplicar atualização de segurança</description>
+    <group>sophos,api_events,updater,alert</group>
+    <mitre>
+      <id>T1070</id> </mitre>
+  </rule>
+
+  <!-- ============================ -->
+  <!-- 🛡️ Intercept X / Threat Protection -->
+  <!-- ============================ -->
+
+  <rule id="100119" level="13">
+    <if_sid>100100</if_sid>
+    <field name="type">^Event::Threat::Detected$</field>
+    <description>Intercept X: Ameaça detectada no endpoint</description>
+    <group>sophos,api_events,threat,interceptx</group>
+    <mitre>
+      <id>T1059</id> </mitre>
+  </rule>
+
+  <rule id="100120" level="12">
+    <if_sid>100100</if_sid>
+    <field name="type">^Event::Threat::Cleaned$</field>
+    <description>Intercept X: Ameaça removida automaticamente</description>
+    <group>sophos,api_events,threat,interceptx</group>
+  </rule>
+
+  <rule id="100121" level="11">
+    <if_sid>100100</if_sid>
+    <field name="type">^Event::Threat::Quarantined$</field>
+    <description>Intercept X: Arquivo malicioso colocado em quarentena</description>
+    <group>sophos,api_events,threat,interceptx,quarantine</group>
+    <mitre>
+      <id>T1203</id> </mitre>
+  </rule>
+
+  <!-- ============================ -->
+  <!-- 🔒 Application Control -->
+  <!-- ============================ -->
+
+  <rule id="100122" level="5">
+    <if_sid>100100</if_sid>
+    <field name="type">^Event::Application::Blocked$</field>
+    <description>Application Control: Aplicação não autorizada bloqueada</description>
+    <group>sophos,api_events,application,control</group>
+    <mitre>
+      <id>T1218</id> </mitre>
+  </rule>
+
+  <rule id="100123" level="3">
+    <if_sid>100100</if_sid>
+    <field name="type">^Event::Application::Allowed$</field>
+    <description>Application Control: Aplicação permitida executada</description>
+    <group>sophos,api_events,application,control</group>
+  </rule>
+
+  <!-- ============================ -->
+  <!-- 🌐 Web Control -->
+  <!-- ============================ -->
+
+  <rule id="100124" level="6">
+    <if_sid>100100</if_sid>
+    <field name="type">^Event::WebControl::BlockedCategory$</field>
+    <description>Web Control: Acesso a categoria bloqueada detectado</description>
+    <group>sophos,api_events,webcontrol,urlfilter</group>
+    <mitre>
+      <id>T1567</id> </mitre>
+  </rule>
+
+  <!-- ============================ -->
+  <!-- 🔌 Peripheral Control -->
+  <!-- ============================ -->
+
+  <rule id="100125" level="4">
+    <if_sid>100100</if_sid>
+    <field name="type">^Event::Peripheral::Blocked$</field>
+    <description>Peripheral Control: Dispositivo bloqueado</description>
+    <group>sophos,api_events,peripheral,usb,control</group>
+    <mitre>
+      <id>T1200</id> </mitre>
+  </rule>
+
+  <rule id="100126" level="2">
+    <if_sid>100100</if_sid>
+    <field name="type">^Event::Endpoint::Device::AlertedOnly$</field>
+    <description>Peripheral Control: Dispositivo permitido (Apenas Alerta)</description>
+    <group>sophos,api_events,peripheral,usb,control</group>
+    <mitre>
+      <id>T1200</id> </mitre>
+  </rule>
+
+  <!-- ============================ -->
+  <!-- 🔎 Live Discover / Response -->
+  <!-- ============================ -->
+
+   <rule id="100127" level="7">
+    <if_sid>100100</if_sid>
+    <field name="type">^Event::LiveDiscover::QueryRun$</field>
+    <description>Live Discover: Query executada remotamente</description>
+    <group>sophos,api_events,livediscover,query</group>
+  </rule>
+
+  <rule id="100128" level="8">
+    <if_sid>100100</if_sid>
+    <field name="type">^Event::LiveResponse::RemoteShellStarted$</field>
+    <description>Live Response: Sessão de shell remoto iniciada</description>
+    <group>sophos,api_events,liveresponse,remote,access</group>
+    <mitre>
+      <id>T1021</id> </mitre>
+  </rule>
+
+  <!--100129 em uso-->
+  
+</group>
